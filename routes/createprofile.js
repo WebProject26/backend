@@ -7,6 +7,7 @@ module.exports = router
 router.get('/', async(req, res) => {
     const { rows } = await db.query('select * from public.users')
     res.send(rows);
+    //Test comment
 })
 
 router.get('/:email', async (req, res) => {
