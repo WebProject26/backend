@@ -8,7 +8,7 @@ const auth = require('../auth')
 module.exports = router
 
 //Actual login and tokin generation.
-router.post("/", async (req, res) => {
+router.put("/", async (req, res) => {
 
     try {
       var { email, password } = req.body;
