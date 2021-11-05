@@ -27,7 +27,7 @@ router.post('/',auth,async(req,res)=>{
   
   var { restaurantName, rating, costlevel, tags, imageURL, deliveryFee } = req.body;
 
-  if (!(restaurantName && password && firstName && lastName)) {
+  if (!(restaurantName && rating && costlevel && tags && imageURL &&deliveryFee)) {
       res.status(400).send("All input is required");
   }
   
