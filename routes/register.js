@@ -3,31 +3,31 @@ const router = new Router()
 const db = require('../db')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
+const auth = require('../auth')
 
 module.exports = router
 
 router.get('/', async(req, res) => {
     const { rows } = await db.query('select * from public.users')
-    res.send(rows);
+    res.status(200).send(rows);
 })
 
 
 router.get('/:email', async (req, res) => {
     const { email } = req.params
-    res.send(await !UserExists(email));
+    res.send(await UserExists(email));
 })
 
 router.post('/',async(req,res)=>{
     // console.log(req.body);
     var data = req.body;
-    try {
         // Get user input
         var { firstName, lastName, email, password } = req.body;
         email = email.toLowerCase();
         
         // Validate user input
         if (!(email && password && firstName && lastName)) {
-            res.status(400).send("All input is required");
+            return res.status(400).send("All input is required");
         }
         
         // check if user already exist
@@ -67,14 +67,11 @@ router.post('/',async(req,res)=>{
         
         // return new user
         res.status(201).json(reply);
-      } catch (err) {
-        console.log(err);
-      }
 })
 
-router.delete('/:email',async(req,res)=>{
-    const { email } = req.params
-    await db.query('delete from public.users where "email" = $1',[email]);
+router.delete('/',auth,async(req,res)=>{
+    await db.query('delete from public.users where id = $1',[req.user.id]);
+    res.status(200).send();
 });
 
 async function UserExists(email){

@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "test": "jest --watchALL --verbose",
+    "testC": "jest --watchALL --verbose --coverage",
     "testDeep": "jest --watchALL --verbose --detectOpenHandles"
   },
   "repository": {
@@ -37,7 +38,8 @@
   "jest": {
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [
-      "/node_modules/"
+      "/node_modules/",
+      "debug"
     ]
   }
 }

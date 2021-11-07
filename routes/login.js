@@ -9,8 +9,6 @@ module.exports = router
 
 //Actual login and tokin generation.
 router.put("/", async (req, res) => {
-
-    try {
       var { email, password } = req.body;
       email = email.toLowerCase();
   
@@ -39,9 +37,6 @@ router.put("/", async (req, res) => {
       }else{
           res.status(400).send("Invalid Credentials");
       }
-    } catch (err) {
-      console.log(err);
-    }
   });
 
 //Get user data

@@ -5,6 +5,8 @@ const debug = require('./debug')
 const cors = require('cors');
 const {json}= require('body-parser');
 
+
+
 module.exports = app => {
   app.use(json());
   app.use(cors());
@@ -12,4 +14,5 @@ module.exports = app => {
   app.use('/register', register);
   app.use('/login',login);
   app.use('/',debug);
+
 }
