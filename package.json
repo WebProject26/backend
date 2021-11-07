@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --watchALL --verbose",
+    "testDeep": "jest --watchALL --verbose --detectOpenHandles"
   },
   "repository": {
     "type": "git",
@@ -27,5 +28,16 @@
     "express-promise-router": "^4.1.0",
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^27.0.2",
+    "jest": "^27.3.1",
+    "supertest": "^6.1.6"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }

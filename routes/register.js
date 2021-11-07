@@ -20,7 +20,6 @@ router.get('/:email', async (req, res) => {
 router.post('/',async(req,res)=>{
     // console.log(req.body);
     var data = req.body;
-    
     try {
         // Get user input
         var { firstName, lastName, email, password } = req.body;
@@ -45,7 +44,6 @@ router.post('/',async(req,res)=>{
             // Store hash in your password DB.
             encPass = hash;
         });
-        
         //We can combine these to single procedure on postgre.
         var reply = await db.query('INSERT INTO public.users("firstName", "lastName", address, email, city, zip, ismanager, password) VALUES ( $1, $2, $3, $4, $5, $6, $7, $8);',
         [firstName,lastName, data.address,email, data.city,data.zip,data.ismanager,encPass])
@@ -62,13 +60,22 @@ router.post('/',async(req,res)=>{
         );
         // save user token
         db.query('UPDATE public.users SET token=($2) WHERE email=$1;',[email,token]); 
-
+        
+        //Lets package user details
+        var reply =jwt.verify(token, "RANDOM_TOKEN_HERE");
+        reply.token = token;
+        
         // return new user
-        res.status(201).json(token);
+        res.status(201).json(reply);
       } catch (err) {
         console.log(err);
       }
 })
+
+router.delete('/:email',async(req,res)=>{
+    const { email } = req.params
+    await db.query('delete from public.users where "email" = $1',[email]);
+});
 
 async function UserExists(email){
     const { rows } = await db.query('select * from public.users WHERE "email" = $1',[email])
