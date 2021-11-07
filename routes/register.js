@@ -22,14 +22,16 @@ router.post('/',async(req,res)=>{
     // console.log(req.body);
     var data = req.body;
         // Get user input
-        var { firstName, lastName, email, password } = req.body;
+        var { firstName, lastName, email, password,zip} = req.body;
         email = email.toLowerCase();
-        
+        zip = parseInt(zip);
         // Validate user input
         if (!(email && password && firstName && lastName)) {
             return res.status(400).send("All input is required");
         }
         
+
+
         // check if user already exist
         // Validate if user exist in our database
         const oldUser = await UserExists(email);
@@ -37,6 +39,12 @@ router.post('/',async(req,res)=>{
         if (oldUser) {
             return res.status(409).send("User Already Exist. Please Login");
         }
+        
+        //check if zip format is correct
+        if((typeof zip !== "number")|| isNaN(zip)){
+            return res.status(400).send("Invalid Zip code");
+        }
+
         var encPass;
         const saltRounds = 10;
         //Encrypt user password
@@ -46,7 +54,7 @@ router.post('/',async(req,res)=>{
         });
         //We can combine these to single procedure on postgre.
         var reply = await db.query('INSERT INTO public.users("firstName", "lastName", address, email, city, zip, ismanager, password) VALUES ( $1, $2, $3, $4, $5, $6, $7, $8);',
-        [firstName,lastName, data.address,email, data.city,data.zip,data.ismanager,encPass])
+        [firstName,lastName, data.address,email, data.city,zip,data.ismanager,encPass])
         var id = await db.query('SELECT id FROM public.users WHERE email = $1',[email]);
         const isManager = data.ismanager;
         

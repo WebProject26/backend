@@ -39,7 +39,7 @@ router.post('/',auth,async(req,res)=>{
 
   //duplicate check
   var { rowCount}  = await db.query('SELECT * from public.restaurants where name = $1',[restaurantName])
-  console.log("RowCount: "+rowCount)
+  // console.log("RowCount: "+rowCount)
   if(rowCount != 0)
     return res.status(400).send("That restaurant name is already taken.")
   
@@ -77,7 +77,7 @@ router.put('/:id',auth,async(req,res)=>{
   var { rowCount} = await db.query('UPDATE public.restaurants	SET name=$3, review=$4, costlevel=$5, tags=$6, "imageURL"=$7, deliveryfee=$8 WHERE managerid = $2 AND id = $1;',
   [id,req.user.id,restaurantName,rating,costlevel,tags,imageURL,deliveryFee]);
 
-  return rowCount == 1 ? res.status(201).send("Success"):res.status(500).send("Something went wrong");
+  return rowCount == 1 ? res.status(200).send("Success"):res.status(500).send("Something went wrong");
 
 })
 
@@ -96,7 +96,7 @@ router.delete('/:id',auth, async (req, res) => {
   if(rows[0].managerid != req.user.id)
     return res.status(403).send("You do not have permissions to edit other restaurants.");
 
-  console.log("Trying final deletion...")
+  // console.log("Trying final deletion...")
   const result = await db.query('DELETE FROM public.restaurants WHERE id = $1 AND managerid = $2',[id,req.user.id])
-  res.json(result);
+  res.status(200).json(result);
 })

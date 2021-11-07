@@ -2,9 +2,9 @@
   "name": "webproject",
   "version": "0.1.0",
   "description": "Web Project backend",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node app.js",
     "test": "jest --watchALL --verbose",
     "testC": "jest --watchALL --verbose --coverage",
     "testDeep": "jest --watchALL --verbose --detectOpenHandles"
@@ -39,7 +39,8 @@
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [
       "/node_modules/",
-      "debug"
+      "debug",
+      "app.js"
     ]
   }
 }

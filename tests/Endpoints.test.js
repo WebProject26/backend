@@ -1,9 +1,8 @@
 const request = require('supertest')
-const app = require('../index')
+const app = require('../app')
 var userToken;
 var managerToken;
 const restaurantID = 24;
-const restaID = 27;
 
 describe("Registeration System",()=>{
     it("Creating user without all required data",async()=>{
@@ -46,6 +45,19 @@ describe("Registeration System",()=>{
             "ismanager":false
         });
         expect(res.statusCode).toEqual(409);
+    })
+    it("Try create user with invalid zip",async()=>{
+        const res = await request(app).post("/register").send({
+            "email":"ziptestmail",
+            "firstName":"Jester",
+            "lastName":"Meta",
+            "password":"jest",
+            "address":"Facebook Inc",
+            "city":"Menlo Park",
+            "zip":"NotAZip",
+            "ismanager":false
+        });
+        expect(res.statusCode).toEqual(400);
     })
 
     it("Delete user",async()=>{
@@ -156,7 +168,7 @@ describe("Restaurant Management", ()=>{
         expect(res.body.ismanager).toEqual(false);
     });
     
-    it("Add restaurant and remove",async()=>{
+    it("Add restaurant and remove it",async()=>{
         const loginres = await request(app).put("/login").send({
             "email":"Testmail",
             "password":"Testmail",
@@ -177,7 +189,7 @@ describe("Restaurant Management", ()=>{
         expect(res.status).toEqual(201);
         var restaID = res.body[res.body.length-1];
         //Remove it
-        const delres = await request(app).delete("/restaurants/"+restaID).send({"token":mToken})
+        const delres = await request(app).delete("/restaurants/"+restaID.id).send({"token":mToken})
         expect(delres.status).toEqual(200);
     });
 
@@ -201,6 +213,27 @@ describe("Restaurant Management", ()=>{
         });
         expect(res.status).toEqual(400);
     });
+
+    it("Try adding duplicate restaurant",async()=>{
+        const loginres = await request(app).put("/login").send({
+            "email":"Testmail",
+            "password":"Testmail",
+        });
+        var mToken = loginres.body.token;
+        const res = await request(app).post("/restaurants").send({
+            "token":mToken,
+            "restaurantName": "Testing Restaurant 2.0",
+            "rating": 49,
+            "costlevel": 1,
+            "tags": [
+                "Pizza",
+                "Drinks"
+            ],
+            "imageURL": "https://i.redd.it/x1a1thbc8us71.jpg",
+            "deliveryFee": "2.99"
+        });
+        expect(res.status).toEqual(400);
+    })
 
     it("Try adding restaurant without being manager",async()=>{
         const loginres = await request(app).put("/login").send({
@@ -231,9 +264,9 @@ describe("Restaurant Management", ()=>{
         });
         var mToken = loginres.body.token;
 
-        const res = await request(app).put("/restaurants/"+restaID).send({   
+        const res = await request(app).put("/restaurants/"+30).send({   
             "token": mToken,
-            "restaurantName": "Edited resta",
+            "restaurantName": "Edited resta "+Math.random()*10000,
             "rating": 31,
             "costlevel": 5,
             "tags": [
@@ -251,7 +284,7 @@ describe("Restaurant Management", ()=>{
             "password":"Testmail",
         });
         var mToken = loginres.body.token;
-        const res = await request(app).delete("/restaurants/"+restaID).send({"token":mToken})
+        const res = await request(app).delete("/restaurants/-1").send({"token":mToken})
         expect(res.status).toEqual(404);
     });
 })
