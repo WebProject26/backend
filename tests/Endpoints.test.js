@@ -158,15 +158,16 @@ describe("Restaurant Management", ()=>{
         expect(res.body.ismanager).toEqual(true);
     });
 
-    it("Non Manager login",async()=>{
-        const res = await request(app).put("/login").send({
-            "email":"user",
-            "password":"user",
-        });
-        uToken = res.body.token;
-        expect(res.status).toEqual(200);
-        expect(res.body.ismanager).toEqual(false);
-    });
+    //No need for testing user login.
+    // it("Non Manager login",async()=>{
+    //     const res = await request(app).put("/login").send({
+    //         "email":"user",
+    //         "password":"user",
+    //     });
+    //     uToken = res.body.token;
+    //     expect(res.status).toEqual(200);
+    //     expect(res.body.ismanager).toEqual(false);
+    // });
     
     it("Add restaurant and remove it",async()=>{
         const loginres = await request(app).put("/login").send({
@@ -415,7 +416,11 @@ describe("Restaurants",()=>{
 
 
 describe('Menu items', () => {
-    it.todo("Get all items")
+    it("Get all items",async()=>{
+        const res = await request(app).get("/menu").send({"restaurantID":30});
+        expect(res.status).toEqual(200);
+        expect(res.body).toHaveProperty("cost")
+    })
     it.todo("Add item")
     it.todo("Update item")
     it.todo("Remove item")
