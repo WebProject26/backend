@@ -412,3 +412,28 @@ describe("Restaurants",()=>{
     })
 
 })
+
+
+describe('Menu items', () => {
+    it.todo("Get all items")
+    it.todo("Add item")
+    it.todo("Update item")
+    it.todo("Remove item")
+  })
+  
+  describe('Cart control', () => {
+    it.todo("Get my items")
+    it.todo("Get restaurant data from current items")
+    it.todo("Add item")
+    it.todo("Change item count to X")
+    it.todo("Remove item")
+    it.todo("Try adding item from restaurant")
+    it.todo("Wipe my cart")
+  })
+
+  describe('Order', () => {
+    it.todo("Get my orders");  
+    it.todo("Get restaurants orders");  
+    it.todo("Update order status");  
+  })
+  
