@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">89.47% </span>
+                <span class="strong">98.24% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>51/57</span>
+                <span class='fraction'>56/57</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
+                <span class="strong">92.5% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>32/40</span>
+                <span class='fraction'>37/40</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">89.47% </span>
+                <span class="strong">98.24% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>51/57</span>
+                <span class='fraction'>56/57</span>
             </div>
         
             
@@ -214,47 +214,47 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -316,17 +316,17 @@ router.post('/',auth,async(req,res)=&gt;{
 //Edit restaurant
 router.put('/:id',auth,async(req,res)=&gt;{
   const { id } = req.params;
-  <span class="missing-if-branch" title="if path not taken" >I</span>if(!req.user.manager)
-<span class="cstat-no" title="statement not covered" >    return res.status(403).send("You are not a manager.");</span>
+  if(!req.user.manager)
+    return res.status(403).send("You are not a manager.");
     
   //Auth check
   const { rows } = await db.query('select * from public.restaurants WHERE id = $1',[id])
-  <span class="missing-if-branch" title="if path not taken" >I</span>if(rows[0].managerid != req.user.id)
-<span class="cstat-no" title="statement not covered" >    return res.status(403).send("You do not have permissions to edit this restaurant.");</span>
+  if(rows[0].managerid != req.user.id)
+    return res.status(403).send("You do not have permissions to edit this restaurant.");
 &nbsp;
   var { restaurantName, rating, costlevel, tags, imageURL, deliveryFee } = req.body;
-  <span class="missing-if-branch" title="if path not taken" >I</span>if (!(restaurantName &amp;&amp; rating &amp;&amp; costlevel &amp;&amp; tags &amp;&amp; imageURL &amp;&amp;deliveryFee)) {
-<span class="cstat-no" title="statement not covered" >    res.status(400).send("All input is required");</span>
+  if (!(restaurantName &amp;&amp; rating &amp;&amp; costlevel &amp;&amp; tags &amp;&amp; imageURL &amp;&amp;deliveryFee)) {
+    res.status(400).send("All input is required");
   }
 &nbsp;
   var { rowCount}  = await db.query('SELECT * from public.restaurants where name = $1',[restaurantName])
@@ -345,8 +345,8 @@ router.put('/:id',auth,async(req,res)=&gt;{
 &nbsp;
 //Delete restaurants
 router.delete('/:id',auth, async (req, res) =&gt; {
-  <span class="missing-if-branch" title="if path not taken" >I</span>if(!req.user.manager)
-<span class="cstat-no" title="statement not covered" >    return res.status(403).send("You are not a manager.");</span>
+  if(!req.user.manager)
+    return res.status(403).send("You are not a manager.");
   
   const { id } = req.params;
   const { rows } = await db.query('select * from public.restaurants WHERE id = $1',[id])
@@ -354,8 +354,8 @@ router.delete('/:id',auth, async (req, res) =&gt; {
   if(rows.length == 0)
     return res.status(404).send("That restaurant does not exist.");
 &nbsp;
-  <span class="missing-if-branch" title="if path not taken" >I</span>if(rows[0].managerid != req.user.id)
-<span class="cstat-no" title="statement not covered" >    return res.status(403).send("You do not have permissions to edit other restaurants.");</span>
+  if(rows[0].managerid != req.user.id)
+    return res.status(403).send("You do not have permissions to edit other restaurants.");
 &nbsp;
   // console.log("Trying final deletion...")
   const result = await db.query('DELETE FROM public.restaurants WHERE id = $1 AND managerid = $2',[id,req.user.id])
@@ -367,7 +367,7 @@ router.delete('/:id',auth, async (req, res) =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sun Nov 07 2021 19:31:50 GMT+0200 (Itä-Euroopan normaaliaika)
+                at Tue Nov 09 2021 09:36:46 GMT+0200 (Itä-Euroopan normaaliaika)
             </div>
         </div>
         <script src="../../prettify.js"></script>

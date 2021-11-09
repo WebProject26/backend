@@ -277,6 +277,69 @@ describe("Restaurant Management", ()=>{
         });
         expect(res.status).toEqual(200);
     });
+    it("Edit restaurant without all data",async()=>{
+        // const resta_res = await request(app).get("/restaurants").send({"managerid":1});
+        const loginres = await request(app).put("/login").send({
+            "email":"Testmail",
+            "password":"Testmail",
+        });
+        var mToken = loginres.body.token;
+
+        const res = await request(app).put("/restaurants/"+30).send({   
+            "token": mToken,
+            "restaurantName": "",
+            "rating": 31,
+            "costlevel": 5,
+            "tags": [
+                "Kebab"
+            ],
+            "imageURL": "https://i.redd.it/x1a1thbc8us71.jpg",
+            "deliveryFee": ""
+        });
+        expect(res.status).toEqual(400);
+    });
+    it("Another manager tries edit other restaurant",async()=>{
+        // const resta_res = await request(app).get("/restaurants").send({"managerid":1});
+        const loginres = await request(app).put("/login").send({
+            "email":"admin",
+            "password":"admin",
+        });
+        var mToken = loginres.body.token;
+
+        const res = await request(app).put("/restaurants/"+30).send({   
+            "token": mToken,
+            "restaurantName": "Another manager edit "+Math.random()*10000,
+            "rating": 31,
+            "costlevel": 5,
+            "tags": [
+                "Kebab"
+            ],
+            "imageURL": "https://i.redd.it/x1a1thbc8us71.jpg",
+            "deliveryFee": "3.99"
+        });
+        expect(res.status).toEqual(403);
+    });
+    it("Try editing restaurant as user",async()=>{
+        // const resta_res = await request(app).get("/restaurants").send({"managerid":1});
+        const loginres = await request(app).put("/login").send({
+            "email":"user",
+            "password":"user",
+        });
+        var uToken = loginres.body.token;
+
+        const res = await request(app).put("/restaurants/"+30).send({   
+            "token": uToken,
+            "restaurantName": "User Edited resta "+Math.random()*10000,
+            "rating": 36,
+            "costlevel": 4,
+            "tags": [
+                "Kebab"
+            ],
+            "imageURL": "https://i.redd.it/x1a1thbc8us71.jpg",
+            "deliveryFee": "3.99"
+        });
+        expect(res.status).toEqual(403);
+    });
 
     it("Try removing non-existing restaurant",async()=>{
         const loginres = await request(app).put("/login").send({
@@ -287,6 +350,25 @@ describe("Restaurant Management", ()=>{
         const res = await request(app).delete("/restaurants/-1").send({"token":mToken})
         expect(res.status).toEqual(404);
     });
+    it("Try removing restaurant as user",async()=>{
+        const loginres = await request(app).put("/login").send({
+            "email":"user",
+            "password":"user",
+        });
+        var uToken = loginres.body.token;
+        const res = await request(app).delete("/restaurants/30").send({"token":uToken})
+        expect(res.status).toEqual(403);
+    });
+    it("Try remove others restaurant",async()=>{
+        const loginres = await request(app).put("/login").send({
+            "email":"admin",
+            "password":"admin",
+        });
+        var uToken = loginres.body.token;
+        const res = await request(app).delete("/restaurants/30").send({"token":uToken})
+        expect(res.status).toEqual(403);
+    });
+
 })
 
 describe("Restaurants",()=>{
