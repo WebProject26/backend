@@ -69,7 +69,7 @@ router.put('/:id',auth,async(req,res)=>{
   }
 
   var { rowCount}  = await db.query('SELECT * from public.restaurants where name = $1',[restaurantName])
-  console.log("Edit RowCount: "+rowCount)
+  // console.log("Edit RowCount: "+rowCount)
   if(rowCount != 0)
     return res.status(400).send("That restaurant name is already taken.")
   
