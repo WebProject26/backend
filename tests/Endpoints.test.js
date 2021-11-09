@@ -417,13 +417,35 @@ describe("Restaurants",()=>{
 
 describe('Menu items', () => {
     it("Get all items",async()=>{
-        const res = await request(app).get("/menu").send({"restaurantID":30});
+        const res = await request(app).get("/menu/30").send({});
         expect(res.status).toEqual(200);
-        expect(res.body).toHaveProperty("cost")
+        expect(res.body[0]).toHaveProperty("cost")
     })
-    it.todo("Add item")
+    it("Add item",async()=>{
+        const loginres = await request(app).put("/login").send({
+            "email":"Testmail",
+            "password":"Testmail",
+        });
+        var mToken = loginres.body.token;
+        const res = await request(app).post("/menu/30").send({
+            "token":mToken,
+            "itemName":"Fantasia",
+            "description":"Pizza with your own choosing",
+            "cost":8.00,
+            "imageURL":"https://i.redd.it/l8ts2vmr85y71.png",
+            "foodcategory":"Pizza"
+        })
+        expect(res.status).toEqual(201);
+        
+
+    })
     it.todo("Update item")
-    it.todo("Remove item")
+    it("Remove item",async()=>{
+        const res = await request(app).delete("/menu/30").send({
+            "itemid":1
+        })
+        expect(res.status).toEqual(200);
+    })
   })
   
   describe('Cart control', () => {

@@ -28,8 +28,7 @@ router.get('/:id', async (req, res) => {
 
 //Creating new restaurant
 router.post('/',auth,async(req,res)=>{
-  if(!req.user.manager)
-    return res.status(403).send("You are not a manager.");
+  if(!req.user.manager) return res.status(403).send("You are not a manager.");
   
   var { restaurantName, rating, costlevel, tags, imageURL, deliveryFee } = req.body;
 
@@ -60,6 +59,8 @@ router.put('/:id',auth,async(req,res)=>{
     
   //Auth check
   const { rows } = await db.query('select * from public.restaurants WHERE id = $1',[id])
+  if(rows.length == 0)
+    return res.status(404).send("That restaurant does not exist.");
   if(rows[0].managerid != req.user.id)
     return res.status(403).send("You do not have permissions to edit this restaurant.");
 
