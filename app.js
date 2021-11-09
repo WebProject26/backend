@@ -5,11 +5,6 @@ mountRoutes(app)
 
 app.set('port', (process.env.PORT || 5890));
 app.use(express.json());
-
-app.listen(app.get('port'), function() {
-  console.log('Node app is running on port', app.get('port'));
-});
-
 // Add headers before the routes are defined
 app.use(function (req, res, next) {
   // Website you wish to allow to connect
@@ -24,4 +19,10 @@ app.use(function (req, res, next) {
   // Pass to next layer of middleware
   next();
 });
-module.exports = app
+
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
+});
+
+
+module.exports = server;

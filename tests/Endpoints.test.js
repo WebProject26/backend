@@ -106,7 +106,6 @@ describe("Registeration System",()=>{
         //Cleanup DB
         const db = require('../db')
         db.query('delete from public.users where zip = 94025');
-        
     })
 })
 
