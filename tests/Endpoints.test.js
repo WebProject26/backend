@@ -102,10 +102,11 @@ describe("Registeration System",()=>{
         expect(res.status).toEqual(403);
     })
 
-    afterAll(()=>{
+    afterAll(async()=>{
         //Cleanup DB
         const db = require('../db')
         db.query('delete from public.users where zip = 94025');
+        // await app.server.close();
     })
 })
 
@@ -435,15 +436,36 @@ describe('Menu items', () => {
             "foodcategory":"Pizza"
         })
         expect(res.status).toEqual(201);
-        
-
     })
-    it.todo("Update item")
-    it("Remove item",async()=>{
-        const res = await request(app).delete("/menu/30").send({
-            "itemid":1
+    it("Update item",async()=>{
+        const loginres = await request(app).put("/login").send({
+            "email":"Testmail",
+            "password":"Testmail",
+        });
+        var mToken = loginres.body.token;
+        const res = await request(app).put("/menu/30").send({
+            "token":mToken,
+            "itemid":13,
+            "itemName":"Not fantasia "+Math.random()*1000,
+            "description":"Pizza with kebab+majo",
+            "cost":9.50,
+            "imageURL":"https://i.redd.it/l8ts2vmr85y71.png",
+            "foodcategory":"Pizza"
         })
         expect(res.status).toEqual(200);
+    })
+
+    it("Try removing item that doesnt exist",async()=>{
+        const loginres = await request(app).put("/login").send({
+            "email":"Testmail",
+            "password":"Testmail",
+        });
+        var mToken = loginres.body.token;
+        const res = await request(app).delete("/menu/30").send({
+            "token":mToken,
+            "itemid":-1
+        })
+        expect(res.status).toEqual(404);
     })
   })
   
@@ -458,8 +480,41 @@ describe('Menu items', () => {
   })
 
   describe('Order', () => {
-    it.todo("Get my orders");  
-    it.todo("Get restaurants orders");  
-    it.todo("Update order status");  
+    it("Get my orders",async()=>{
+        const loginres = await request(app).put("/login").send({
+            "email":"user",
+            "password":"user"
+        });
+        var mToken = loginres.body.token;
+        const res = await request(app).get("/orders").send({"token":mToken})
+        expect(res.status).toEqual(200);
+    });  
+    it("Create new order",async()=>{
+        const loginres = await request(app).put("/login").send({
+            "email":"user",
+            "password":"user"
+        });
+        var uToken = loginres.body.token;
+        const res = await request(app).post("/orders/30").send({"token":uToken,"foodids":[1,2,3]})
+        expect(res.status).toEqual(201);
+    })
+    it("Get restaurants orders",async()=>{
+        const loginres = await request(app).put("/login").send({
+            "email":"Testmail",
+            "password":"Testmail"
+        });
+        var mToken = loginres.body.token;
+        const res = await request(app).get("/orders/30").send({"token":mToken})
+        expect(res.status).toEqual(200);
+    });  
+    it("Update order status",async()=>{
+        const loginres = await request(app).put("/login").send({
+            "email":"Testmail",
+            "password":"Testmail"
+        });
+        var mToken = loginres.body.token;
+        const res = await request(app).put("/orders/30").send({"token":mToken,"orderid":1,"status":2})
+        expect(res.status).toEqual(200);
+    });  
   })
   

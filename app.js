@@ -20,9 +20,9 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.listen(app.get('port'), function() {
+module.exports.server = app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
 
 
-module.exports = server;
+module.exports = app;
