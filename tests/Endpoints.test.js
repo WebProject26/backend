@@ -470,13 +470,49 @@ describe('Menu items', () => {
   })
   
   describe('Cart control', () => {
-    it.todo("Get my items")
-    it.todo("Get restaurant data from current items")
-    it.todo("Add item")
-    it.todo("Change item count to X")
-    it.todo("Remove item")
-    it.todo("Try adding item from restaurant")
-    it.todo("Wipe my cart")
+
+    it("Get my items",async()=>{
+        const loginres = await request(app).put("/login").send({
+            "email":"user",
+            "password":"user"
+        });
+        var mToken = loginres.body.token;
+        const res = await request(app).get("/cart").send({"token":mToken})
+        expect(res.status).toEqual(200);
+    }); 
+
+    it("Add item",async()=>{
+        const loginres = await request(app).put("/login").send({
+            "email":"user",
+            "password":"user"
+        });
+        var mToken = loginres.body.token;
+        const res = await request(app).post("/cart").send({"token":mToken, "menuitem":30})
+        expect(res.status).toEqual(201);
+
+
+    })
+    it("Remove item",async()=>{
+        const loginres = await request(app).put("/login").send({
+            "email":"user",
+            "password":"user"
+        });
+        var mToken = loginres.body.token;
+        const res = await request(app).delete("/cart").send({"token":mToken, "menuitem":30})
+        expect(res.status).toEqual(200);
+    }) //DELETE
+
+    it.todo("Try adding item from restaurant") //POST
+    it("Wipe my cart",async()=>{
+        const loginres = await request(app).put("/login").send({
+            "email":"user",
+            "password":"user"
+        });
+        var mToken = loginres.body.token;
+        const res = await request(app).delete("/cart").send({"token":mToken, "wipe":true})
+        expect(res.status).toEqual(200);
+        // console.log(res);
+    }) //DELETE
   })
 
   describe('Order', () => {
