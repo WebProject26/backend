@@ -467,21 +467,6 @@ describe('Menu items', () => {
         })
         expect(res.status).toEqual(404);
     })
-
-    it("Submit my menu",async()=>{
-        const loginres = await request(app).put("/login").send({
-            "email":"Testmail",
-            "password":"Testmail",
-        });
-        var mToken = loginres.body.token;
-
-        const res = await request(app).post("/menu").send({
-            "token":mToken
-        })
-
-        expect(res.status).toEqual(201);
-
-    })
   })
   
   describe('Cart control', () => {

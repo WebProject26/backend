@@ -5,12 +5,12 @@ const auth = require('../auth')
 
 module.exports = router
 
-router.get('/',auth,async(req,res)=>{
+router.get('/',auth,async(req,res)=>{ //Customer orders
     var { rows } = await db.query('select * from public.orders WHERE userid = $1',[req.user.id])
     res.status(200).send(rows);
 })
 
-router.get('/:id',auth,async(req,res)=>{
+router.get('/:id',auth,async(req,res)=>{ //Restaurant
     if(!req.user.manager) return res.status(403).send("You are not a manager.");
     const { id } = req.params;
 
