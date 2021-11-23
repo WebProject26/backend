@@ -467,6 +467,21 @@ describe('Menu items', () => {
         })
         expect(res.status).toEqual(404);
     })
+
+    it("Submit my menu",async()=>{
+        const loginres = await request(app).put("/login").send({
+            "email":"Testmail",
+            "password":"Testmail",
+        });
+        var mToken = loginres.body.token;
+
+        const res = await request(app).post("/menu").send({
+            "token":mToken
+        })
+
+        expect(res.status).toEqual(201);
+
+    })
   })
   
   describe('Cart control', () => {
@@ -501,8 +516,20 @@ describe('Menu items', () => {
         const res = await request(app).delete("/cart").send({"token":mToken, "menuitem":30})
         expect(res.status).toEqual(200);
     }) //DELETE
+    
+    it("Try adding item from restaurant",async()=>{
+        const loginres = await request(app).put("/login").send({
+            "email":"user",
+            "password":"user"
+        });
+        var mToken = loginres.body.token;
+        
+        //Add item 1 that belongs to restaurant 1
+        //Add item 2 that belongs to restaurant 2
+        //Expect only item 2 exist.
+    }); //POST
 
-    it.todo("Try adding item from restaurant") //POST
+
     it("Wipe my cart",async()=>{
         const loginres = await request(app).put("/login").send({
             "email":"user",

@@ -7,7 +7,7 @@ module.exports = router
 
 //Return all restaurants
 router.get('/', async (req, res) => {
-  const {managerid} = req.body;
+  const {managerid} = req.params;
   if(managerid==undefined){
     const { rows } = await db.query('select * from public.restaurants')
     res.status(200).json(rows);
