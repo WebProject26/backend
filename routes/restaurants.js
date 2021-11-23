@@ -30,11 +30,11 @@ router.get('/:id', async (req, res) => {
 router.post('/',auth,async(req,res)=>{
   if(!req.user.manager) return res.status(403).send("You are not a manager.");
   
-  var { restaurantName, rating, costlevel, tags, imageURL, deliveryFee } = req.body;
+  var { restaurantName, rating, costlevel, tags, imageURL, deliveryFee, phoneNumber, emailAddress, address,website,openingHours } = req.body;
 
-  if (!(restaurantName && rating && costlevel && tags && imageURL &&deliveryFee)) {
-      return res.status(400).send("All input is required");
-  }
+  // if (!(restaurantName && rating && costlevel && tags && imageURL &&deliveryFee&&phoneNumber&& emailAddress&& address&&website&&openingHours)) {
+  //     return res.status(400).send("All input is required");
+  // }
 
   //duplicate check
   var { rowCount}  = await db.query('SELECT * from public.restaurants where name = $1',[restaurantName])
@@ -43,7 +43,7 @@ router.post('/',auth,async(req,res)=>{
     return res.status(400).send("That restaurant name is already taken.")
   
   
-  var { rowCount} = await db.query('INSERT INTO public.restaurants(name, managerid, review, costlevel, tags, "imageURL", deliveryfee) VALUES ($1, $2, $3, $4, $5, $6, $7);',[restaurantName,req.user.id,rating,costlevel,tags,imageURL,deliveryFee]);
+  var { rowCount} = await db.query('INSERT INTO public.restaurants(name, managerid, review, costlevel, tags, "imageURL", deliveryfee, phoneNumber,emailAddress,address,website,openingHours) VALUES ($1, $2, $3, $4, $5, $6, $7,$8,$9,$10,$11);',[restaurantName,req.user.id,rating,costlevel,tags,imageURL,deliveryFee,phoneNumber,emailAddress,address,website,openingHours]);
   var restaurantData = await db.query('SELECT * from public.restaurants where managerid = $1 AND name = $2',[req.user.id,restaurantName])
   // await db.query('SELECT id from public.restaurants where name = $1')
   // console.log(query)
