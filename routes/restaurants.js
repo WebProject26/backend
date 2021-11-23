@@ -64,10 +64,11 @@ router.put('/:id',auth,async(req,res)=>{
   if(rows[0].managerid != req.user.id)
     return res.status(403).send("You do not have permissions to edit this restaurant.");
 
-  var { restaurantName, rating, costlevel, tags, imageURL, deliveryFee } = req.body;
-  if (!(restaurantName && rating && costlevel && tags && imageURL &&deliveryFee)) {
-    res.status(400).send("All input is required");
-  }
+  var { restaurantName, rating, costlevel, tags, imageURL, deliveryFee, phoneNumber, emailAddress, address,website,openingHours } = req.body;
+  // var { restaurantName, rating, costlevel, tags, imageURL, deliveryFee } = req.body;
+  // if (!(restaurantName && rating && costlevel && tags && imageURL &&deliveryFee)) {
+  //   res.status(400).send("All input is required");
+  // }
 
   var { rowCount}  = await db.query('SELECT * from public.restaurants where name = $1',[restaurantName])
   // console.log("Edit RowCount: "+rowCount)
@@ -75,8 +76,8 @@ router.put('/:id',auth,async(req,res)=>{
     return res.status(400).send("That restaurant name is already taken.")
   
   // console.log("User ID: $1 RestID: $2",[req.user.id,id]);
-  var { rowCount} = await db.query('UPDATE public.restaurants	SET name=$3, review=$4, costlevel=$5, tags=$6, "imageURL"=$7, deliveryfee=$8 WHERE managerid = $2 AND id = $1;',
-  [id,req.user.id,restaurantName,rating,costlevel,tags,imageURL,deliveryFee]);
+  var { rowCount} = await db.query('UPDATE public.restaurants	SET name=$3, review=$4, costlevel=$5, tags=$6, "imageURL"=$7, deliveryfee=$8,phoneNumber=$9,emailAddress=$10,address=$11,website=$12,openingHours=$13 WHERE managerid = $2 AND id = $1;',
+  [id,req.user.id,restaurantName,rating,costlevel,tags,imageURL,deliveryFee,phoneNumber,emailAddress,address,website,openingHours]);
 
   return rowCount == 1 ? res.status(200).send("Success"):res.status(500).send("Something went wrong");
 
