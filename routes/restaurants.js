@@ -37,13 +37,13 @@ router.post('/',auth,async(req,res)=>{
   // }
 
   //duplicate check
-  var { rowCount}  = await db.query('SELECT * from public.restaurants where name = $1',[restaurantName])
+  // var { rowCount}  = await db.query('SELECT * from public.restaurants where name = $1',[restaurantName])
   // console.log("RowCount: "+rowCount)
-  if(rowCount != 0)
-    return res.status(400).send("That restaurant name is already taken.")
+  // if(rowCount != 0)
+  //   return res.status(400).send("That restaurant name is already taken.")
   
   
-  var { rowCount} = await db.query('INSERT INTO public.restaurants(name, managerid, review, costlevel, tags, "imageURL", deliveryfee, phoneNumber,emailAddress,address,website,openingHours) VALUES ($1, $2, $3, $4, $5, $6, $7,$8,$9,$10,$11);',[restaurantName,req.user.id,rating,costlevel,tags,imageURL,deliveryFee,phoneNumber,emailAddress,address,website,openingHours]);
+  var { rowCount} = await db.query('INSERT INTO public.restaurants(name, managerid, review, costlevel, tags, "imageURL", deliveryfee, "phoneNumber","emailAddress",address,website,openingHours) VALUES ($1, $2, $3, $4, $5, $6, $7,$8,$9,$10,$11,$12);',[restaurantName,req.user.id,rating,costlevel,tags,imageURL,deliveryFee,phoneNumber,emailAddress,address,website,openingHours]);
   var restaurantData = await db.query('SELECT * from public.restaurants where managerid = $1 AND name = $2',[req.user.id,restaurantName])
   // await db.query('SELECT id from public.restaurants where name = $1')
   // console.log(query)
@@ -70,13 +70,14 @@ router.put('/:id',auth,async(req,res)=>{
   //   res.status(400).send("All input is required");
   // }
 
-  var { rowCount}  = await db.query('SELECT * from public.restaurants where name = $1',[restaurantName])
+  var { rowCount}  = await db.query('SELECT * from public.restaurants where name = $1 AND id != $2',[restaurantName,id])
   // console.log("Edit RowCount: "+rowCount)
   if(rowCount != 0)
     return res.status(400).send("That restaurant name is already taken.")
   
   // console.log("User ID: $1 RestID: $2",[req.user.id,id]);
-  var { rowCount} = await db.query('UPDATE public.restaurants	SET name=$3, review=$4, costlevel=$5, tags=$6, "imageURL"=$7, deliveryfee=$8,phoneNumber=$9,emailAddress=$10,address=$11,website=$12,openingHours=$13 WHERE managerid = $2 AND id = $1;',
+  // console.log(phoneNumber)
+  var { rowCount} = await db.query('UPDATE public.restaurants	SET name=$3, review=$4, costlevel=$5, tags=$6, "imageURL"=$7, deliveryfee=$8,"phoneNumber"=$9,"emailAddress"=$10,address=$11,website=$12,openingHours=$13 WHERE managerid = $2 AND id = $1;',
   [id,req.user.id,restaurantName,rating,costlevel,tags,imageURL,deliveryFee,phoneNumber,emailAddress,address,website,openingHours]);
 
   return rowCount == 1 ? res.status(200).send("Success"):res.status(500).send("Something went wrong");
