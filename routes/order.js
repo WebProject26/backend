@@ -32,8 +32,10 @@ router.put('/',auth,async(req,res)=>{
 router.put('/:id',auth,async(req,res)=>{
     const {id}=req.params;
     const {orderid, status}=req.body;
-    const { rowCount } = await db.query('UPDATE public.orders SET status = $3 WHERE restaurantid = $1 AND id = $2;',[id,orderid,status])
-    return rowCount == 1 ? res.status(200).send("Success"):res.status(500).send("Something went wrong");
+    console.log(id+" "+orderid+" "+status)
+    const reply = await db.query('UPDATE public.orders SET status = $3 WHERE restaurantid = $1 AND id = $2;',[id,orderid,status])
+    // console.log(reply);
+    return reply.rowCount == 1 ? res.status(200).send("Success"):res.status(500).send("Something went wrong");
 })
 
 router.post('/:id',auth,async(req,res)=>{
