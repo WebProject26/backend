@@ -35,7 +35,7 @@ router.delete('/',auth,async(req,res)=>{
     var {menuitem} = req.body;
     if(req.body.wipe){
         await db.query("UPDATE public.users SET cartitems=($2) WHERE id = $1;",[req.user.id,null]);
-        console.log("wiped");
+        console.log("Cart is wiped");
         return res.status(200).send("Wiped the cart.");
     }
 
@@ -46,6 +46,9 @@ router.delete('/',auth,async(req,res)=>{
     //TODO
     //Check if menu item is owned by another restaurant
 
+    if(!cart.includes(menuitem)){
+        return res.status(404).send("Trying to delete item that doesnt exist on array")
+    }
     var index = cart.indexOf(menuitem.toString());
     if(cart !=null){
         cart.splice(index,1);
